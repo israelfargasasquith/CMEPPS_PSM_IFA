@@ -12,29 +12,25 @@ import java.util.Scanner;
  */
 public class Jugador {
 
-    private int vidas;
     private String palabraIntento;
     private final int idJugador;
-    private int partidasGanadas;
-    private int partidasRestantes;
     private final Scanner teclado;
     private final Partida partida;
 
     public Jugador(int idJugador, Partida partida) {
         this.idJugador = idJugador;
-        this.vidas = 5;
         this.palabraIntento = "";
-        this.partidasGanadas = 0;
-        this.partidasRestantes = 6;
         this.teclado = new Scanner(System.in);
         this.partida = partida;
     }
 
     public boolean intentarAdivinar() {
-        System.out.println("Cual es tu palabra a probar?");
+        boolean acierto = false;
+        System.out.println("Cual es tu palabra a probar? Jagador"+idJugador);
         palabraIntento = teclado.nextLine();
-        
-        partida.comprobarPalabra(this.idJugador,this.palabraIntento);
+
+        acierto = partida.comprobarPalabra(this.idJugador, this.palabraIntento);
+        return acierto;
     }
 
 }
