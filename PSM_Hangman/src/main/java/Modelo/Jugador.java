@@ -26,10 +26,15 @@ public class Jugador {
 
     public boolean intentarAdivinar() {
         boolean acierto = false;
-        System.out.println("Cual es tu palabra a probar? Jagador"+idJugador);
+        System.out.println("Cual es tu palabra a probar? Jugador"+idJugador);
         palabraIntento = teclado.nextLine();
 
         acierto = partida.comprobarPalabra(this.idJugador, this.palabraIntento);
+        if(acierto){
+            System.out.println("ACERTASTE");
+        }else{
+            System.out.println("Necesitas mas suerte...");
+        }
         return acierto;
     }
 

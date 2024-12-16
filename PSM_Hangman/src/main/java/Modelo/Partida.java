@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -12,10 +13,10 @@ import java.util.Random;
  */
 public class Partida {
 
-    private final String palabraSecreta;
+    private String palabraSecreta;
     private int nLetrasPalabraSecreta;
-    private char[] letrasAdivinadas;
-    private String[] palabrasProbadas;
+    private String letrasAdivinadas;
+    private ArrayList<String> palabrasProbadas;
     private final int idJugador1;
     private final int idJugador2;
     private int vidasJugador1;
@@ -27,7 +28,11 @@ public class Partida {
     private final Random rand;
 
     public Partida() {
-        this.palabraSecreta = this.generarPalabra();
+        this.rand = new Random(System.nanoTime());
+        for (int i = 0; i < nLetrasPalabraSecreta; i++) {
+            this.letrasAdivinadas = "_ ";
+        }
+        this.palabrasProbadas = new ArrayList<>();
         this.idJugador1 = 1;
         this.idJugador2 = 2;
         this.partidasGanadasJugador1 = 0;
@@ -36,20 +41,115 @@ public class Partida {
         this.partidasRestantesJugador2 = 5;
         this.vidasJugador1 = 6;
         this.vidasJugador2 = 6;
-        this.rand = new Random(System.nanoTime());
+        this.generarPalabra();
     }
 
     public boolean comprobarPalabra(int idJugador, String palabraPrueba) {
+        boolean acierto = false;
+        if (palabraPrueba.equalsIgnoreCase(this.palabraSecreta)) {
+            //this.actualizarValores(idJugador,true);
+            System.out.println("Palabra acertada " + palabraPrueba + " == " + palabraSecreta);
+            if (idJugador == 1) {
+                partidasGanadasJugador1++;
+                partidasRestantesJugador1--;
+                vidasJugador1 = 6;
+                this.generarPalabra();
 
-        return palabraPrueba.equalsIgnoreCase(this.palabraSecreta);
+            } else {
+                partidasGanadasJugador2++;
+                partidasRestantesJugador2--;
+                vidasJugador2 = 6;
+                this.generarPalabra();
+            }
+            acierto = true;
+        } else {
+            //this.actualizarValores(idJugador,false);
+            palabrasProbadas.add(palabraPrueba);
+            if (idJugador == 1) {
+                vidasJugador1--;
+
+            } else {
+                vidasJugador2--;
+
+            }
+            if (vidasJugador1 == 0 && partidasRestantesJugador1 > 0) {
+                partidasRestantesJugador1--;
+                vidasJugador1 = 6;
+                this.generarPalabra();
+            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 > 0) {
+                partidasRestantesJugador2--;
+                vidasJugador2 = 6;
+                this.generarPalabra();
+            }
+            acierto = false;
+        }
+        return acierto;
     }
 
-    private String generarPalabra() {
+    public int comprobarPartidasRestantes() {
+        if (partidasRestantesJugador1 > 0) {
+            return 1;
+        } else if (partidasRestantesJugador2 > 0) {
+            return 2;
+        } else {
+            return -1;
+        }
+    }
+
+    public boolean mostrarDatos(int id) {
+        boolean acabada = false;
+        System.out.print("\nPalabra secreta: ");
+        for (int i = 0; i < nLetrasPalabraSecreta; i++) {
+            System.out.print("_ ");
+        }
+        switch (id) {
+            case 1:
+                System.out.println("\n\nTurno jugador1\nEl jugador1 tiene: " + vidasJugador1 + " vidas "
+                        + "\nHa ganado " + partidasGanadasJugador1 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador1);
+                System.out.println("Palabras probadas jugador1: ");
+                for (String palabraProbada : palabrasProbadas) {
+                    System.out.println(palabraProbada);
+                }
+                //System.out.println(letrasAdivinadas);
+                break;
+            case 2:
+                System.out.println("\n\nTurno jugador2\nEl jugador2 tiene: " + vidasJugador2 + " vidas "
+                        + "\nHa ganado " + partidasGanadasJugador2 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador2);
+                System.out.println("Palabras probadas jugador2: ");
+                for (String palabraProbada : palabrasProbadas) {
+                    System.out.println(palabraProbada);
+                }
+                //System.out.println(letrasAdivinadas);
+                break;
+            case -1:
+                System.out.println("FIN DE PARTIDA RESUMEN:");
+                System.out.println("El jugador 1 tiene: " + vidasJugador1
+                        + "\nHa ganado " + partidasGanadasJugador1 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador1);
+                System.out.println("El jugador 2 tiene: " + vidasJugador2
+                        + "\nHa ganado " + partidasGanadasJugador2 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador2);
+
+                if (partidasGanadasJugador1 > partidasGanadasJugador2) {
+                    System.out.println("VICTORIA MAGISTRAL PARA EL JUGADOR 1");
+                } else if (partidasGanadasJugador1 < partidasGanadasJugador2) {
+                    System.out.println("VICTORIA MAGISTRAL PARA EL JUGADOR 2");
+                } else {
+                    System.out.println("HA SIDO EMPATE");
+                }
+                acabada = true;
+                break;
+            default:
+                System.out.println("Error en los turnos...");
+                break;
+        }
+        return acabada;
+    }
+
+    private void generarPalabra() {
         String poolPalabras[] = {"Viktor", "Joel", "Huevo", "Mango", "Tomar", "Motora", "Mosca", "Piel", "Feliz", "Navidad", "Año", "Nuevo"};
-        int elegida = rand.nextInt(0, 12);
-        System.out.println("La palabra secreta es: " + palabraSecreta);
+        int elegida = rand.nextInt(0, 11);
+        palabraSecreta = poolPalabras[elegida];
+        System.out.println("La palabra secreta es: " + palabraSecreta + " numero generado " + elegida);
         this.nLetrasPalabraSecreta = palabraSecreta.length();
-        return poolPalabras[elegida];
     }
 
     public int getnLetrasPalabraSecreta() {
@@ -60,19 +160,19 @@ public class Partida {
         this.nLetrasPalabraSecreta = nLetrasPalabraSecreta;
     }
 
-    public char[] getLetrasAdivinadas() {
+    public String getLetrasAdivinadas() {
         return letrasAdivinadas;
     }
 
-    public void setLetrasAdivinadas(char[] letrasAdivinadas) {
+    public void setLetrasAdivinadas(String letrasAdivinadas) {
         this.letrasAdivinadas = letrasAdivinadas;
     }
 
-    public String[] getPalabrasProbadas() {
+    public ArrayList<String> getPalabrasProbadas() {
         return palabrasProbadas;
     }
 
-    public void setPalabrasProbadas(String[] palabrasProbadas) {
+    public void setPalabrasProbadas(ArrayList<String> palabrasProbadas) {
         this.palabrasProbadas = palabrasProbadas;
     }
 
