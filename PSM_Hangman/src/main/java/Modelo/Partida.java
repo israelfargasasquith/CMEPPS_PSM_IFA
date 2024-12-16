@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
 import java.util.ArrayList;
@@ -58,39 +54,6 @@ public class Partida {
         }
         this.actualizarDatos(idJugador, acierto);
         return acierto;
-    }
-
-    private void actualizarDatos(int idJugador, boolean fueAcierto) {
-        if (idJugador == idJugador1) {
-            if (fueAcierto) {
-                partidasGanadasJugador1++;
-                partidasRestantesJugador1--;
-                vidasJugador1 = 6;
-            } else if (vidasJugador1 == 0 && partidasRestantesJugador1 == 0) {
-                System.out.println("Perdiste amigo/a");
-            } else if (vidasJugador1 == 0 && partidasRestantesJugador1 > 0) {
-                vidasJugador1 = 6;
-                partidasRestantesJugador1--;
-                System.out.println("Perdiste una ronda, te queda: " + partidasRestantesJugador1);
-            } else {
-                vidasJugador1--;
-            }
-        } else {
-            if (fueAcierto) {
-                partidasGanadasJugador2++;
-                partidasRestantesJugador2--;
-                vidasJugador2 = 6;
-            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 == 0) {
-                System.out.println("Perdiste amigo/a");
-            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 > 0) {
-                vidasJugador2 = 6;
-                partidasRestantesJugador2--;
-                System.out.println("Perdiste una ronda, te queda: " + partidasRestantesJugador2);
-            } else {
-                vidasJugador2--;
-            }
-        }
-
     }
 
     public int comprobarPartidasRestantes() {
@@ -153,6 +116,39 @@ public class Partida {
         return acabada;
     }
 
+    private void actualizarDatos(int idJugador, boolean fueAcierto) {
+        if (idJugador == idJugador1) {
+            if (fueAcierto) {
+                partidasGanadasJugador1++;
+                partidasRestantesJugador1--;
+                vidasJugador1 = 6;
+            } else if (vidasJugador1 == 0 && partidasRestantesJugador1 == 0) {
+                System.out.println("Perdiste amigo/a");
+            } else if (vidasJugador1 == 0 && partidasRestantesJugador1 > 0) {
+                vidasJugador1 = 6;
+                partidasRestantesJugador1--;
+                System.out.println("Perdiste una ronda, te queda: " + partidasRestantesJugador1);
+            } else {
+                vidasJugador1--;
+            }
+        } else {
+            if (fueAcierto) {
+                partidasGanadasJugador2++;
+                partidasRestantesJugador2--;
+                vidasJugador2 = 6;
+            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 == 0) {
+                System.out.println("Perdiste amigo/a");
+            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 > 0) {
+                vidasJugador2 = 6;
+                partidasRestantesJugador2--;
+                System.out.println("Perdiste una ronda, te queda: " + partidasRestantesJugador2);
+            } else {
+                vidasJugador2--;
+            }
+        }
+
+    }
+
     private void generarPalabra() {
         String poolPalabras[] = {"Viktor", "Joel", "Huevo", "Mango", "Tomar", "Motora", "Mosca", "Piel", "Feliz", "Navidad", "Año", "Nuevo"};
         int elegida = rand.nextInt(0, 11);
@@ -160,61 +156,4 @@ public class Partida {
         System.out.println("La palabra secreta es: " + palabraSecreta + " numero generado " + elegida);
         this.nLetrasPalabraSecreta = palabraSecreta.length();
     }
-
-    public int getnLetrasPalabraSecreta() {
-        return nLetrasPalabraSecreta;
-    }
-
-    public void setnLetrasPalabraSecreta(int nLetrasPalabraSecreta) {
-        this.nLetrasPalabraSecreta = nLetrasPalabraSecreta;
-    }
-
-    public String getLetrasAdivinadas() {
-        return letrasAdivinadas;
-    }
-
-    public void setLetrasAdivinadas(String letrasAdivinadas) {
-        this.letrasAdivinadas = letrasAdivinadas;
-    }
-
-    public ArrayList<String> getPalabrasProbadas() {
-        return palabrasProbadas;
-    }
-
-    public void setPalabrasProbadas(ArrayList<String> palabrasProbadas) {
-        this.palabrasProbadas = palabrasProbadas;
-    }
-
-    public int getPartidasGanadasJugador1() {
-        return partidasGanadasJugador1;
-    }
-
-    public void setPartidasGanadasJugador1(int partidasGanadasJugador1) {
-        this.partidasGanadasJugador1 = partidasGanadasJugador1;
-    }
-
-    public int getPartidasGanadasJugador2() {
-        return partidasGanadasJugador2;
-    }
-
-    public void setPartidasGanadasJugador2(int partidasGanadasJugador2) {
-        this.partidasGanadasJugador2 = partidasGanadasJugador2;
-    }
-
-    public int getPartidasRestantesJugador1() {
-        return partidasRestantesJugador1;
-    }
-
-    public void setPartidasRestantesJugador1(int partidasRestantesJugador1) {
-        this.partidasRestantesJugador1 = partidasRestantesJugador1;
-    }
-
-    public int getPartidasRestantesJugador2() {
-        return partidasRestantesJugador2;
-    }
-
-    public void setPartidasRestantesJugador2(int partidasRestantesJugador2) {
-        this.partidasRestantesJugador2 = partidasRestantesJugador2;
-    }
-
 }
