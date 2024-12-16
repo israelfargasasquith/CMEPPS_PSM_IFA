@@ -49,41 +49,48 @@ public class Partida {
         if (palabraPrueba.equalsIgnoreCase(this.palabraSecreta)) {
             //this.actualizarValores(idJugador,true);
             System.out.println("Palabra acertada " + palabraPrueba + " == " + palabraSecreta);
-            if (idJugador == 1) {
+            acierto = true;
+        } else {
+            System.out.println("Fallaste");
+
+            palabrasProbadas.add(palabraPrueba);
+            acierto = false;
+        }
+        this.actualizarDatos(idJugador, acierto);
+        return acierto;
+    }
+
+    private void actualizarDatos(int idJugador, boolean fueAcierto) {
+        if (idJugador == idJugador1) {
+            if (fueAcierto) {
                 partidasGanadasJugador1++;
                 partidasRestantesJugador1--;
                 vidasJugador1 = 6;
-                this.generarPalabra();
-
+            } else if (vidasJugador1 == 0 && partidasRestantesJugador1 == 0) {
+                System.out.println("Perdiste amigo/a");
+            } else if (vidasJugador1 == 0 && partidasRestantesJugador1 > 0) {
+                vidasJugador1 = 6;
+                partidasRestantesJugador1--;
+                System.out.println("Perdiste una ronda, te queda: " + partidasRestantesJugador1);
             } else {
+                vidasJugador1--;
+            }
+        } else {
+            if (fueAcierto) {
                 partidasGanadasJugador2++;
                 partidasRestantesJugador2--;
                 vidasJugador2 = 6;
-                this.generarPalabra();
-            }
-            acierto = true;
-        } else {
-            //this.actualizarValores(idJugador,false);
-            palabrasProbadas.add(palabraPrueba);
-            if (idJugador == 1) {
-                vidasJugador1--;
-
+            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 == 0) {
+                System.out.println("Perdiste amigo/a");
+            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 > 0) {
+                vidasJugador2 = 6;
+                partidasRestantesJugador2--;
+                System.out.println("Perdiste una ronda, te queda: " + partidasRestantesJugador2);
             } else {
                 vidasJugador2--;
-
             }
-            if (vidasJugador1 == 0 && partidasRestantesJugador1 > 0) {
-                partidasRestantesJugador1--;
-                vidasJugador1 = 6;
-                this.generarPalabra();
-            } else if (vidasJugador2 == 0 && partidasRestantesJugador2 > 0) {
-                partidasRestantesJugador2--;
-                vidasJugador2 = 6;
-                this.generarPalabra();
-            }
-            acierto = false;
         }
-        return acierto;
+
     }
 
     public int comprobarPartidasRestantes() {
@@ -105,28 +112,30 @@ public class Partida {
         switch (id) {
             case 1:
                 System.out.println("\n\nTurno jugador1\nEl jugador1 tiene: " + vidasJugador1 + " vidas "
-                        + "\nHa ganado " + partidasGanadasJugador1 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador1);
+                        + "\nHa ganado " + partidasGanadasJugador1 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador1 + " partidas");
                 System.out.println("Palabras probadas jugador1: ");
                 for (String palabraProbada : palabrasProbadas) {
-                    System.out.println(palabraProbada);
+                    System.out.print(palabraProbada + ", ");
                 }
+                System.out.println("");
                 //System.out.println(letrasAdivinadas);
                 break;
             case 2:
                 System.out.println("\n\nTurno jugador2\nEl jugador2 tiene: " + vidasJugador2 + " vidas "
-                        + "\nHa ganado " + partidasGanadasJugador2 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador2);
+                        + "\nHa ganado " + partidasGanadasJugador2 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador2 + " partidas");
                 System.out.println("Palabras probadas jugador2: ");
                 for (String palabraProbada : palabrasProbadas) {
-                    System.out.println(palabraProbada);
+                    System.out.print(palabraProbada + ", ");
                 }
+                System.out.println("");
                 //System.out.println(letrasAdivinadas);
                 break;
             case -1:
                 System.out.println("FIN DE PARTIDA RESUMEN:");
                 System.out.println("El jugador 1 tiene: " + vidasJugador1
-                        + "\nHa ganado " + partidasGanadasJugador1 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador1);
+                        + "\nHa ganado " + partidasGanadasJugador1 + " de " + 5 + " intentos");
                 System.out.println("El jugador 2 tiene: " + vidasJugador2
-                        + "\nHa ganado " + partidasGanadasJugador2 + " de " + 5 + " intentos\nLe quedan: " + partidasRestantesJugador2);
+                        + "\nHa ganado " + partidasGanadasJugador2 + " de " + 5 + " intentos");
 
                 if (partidasGanadasJugador1 > partidasGanadasJugador2) {
                     System.out.println("VICTORIA MAGISTRAL PARA EL JUGADOR 1");

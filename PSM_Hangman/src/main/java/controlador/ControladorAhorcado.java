@@ -34,16 +34,10 @@ public class ControladorAhorcado {
             acabada = partida.mostrarDatos(turno);
             turno = partida.comprobarPartidasRestantes();
             if (turno == 1) {
-                aciertoPalabra = jugador1.intentarAdivinar();
+                jugador1.intentarAdivinar();
             } else {
-                aciertoPalabra = jugador2.intentarAdivinar();
+                jugador2.intentarAdivinar();
             }
-//            if(aciertoPalabra){
-//                System.out.println("Felicidades ganaste una ronda");
-//            }else{
-//                System.out.println("A ver si la siguiente si...");
-//            }
-//            
 
         } while (!acabada);
 

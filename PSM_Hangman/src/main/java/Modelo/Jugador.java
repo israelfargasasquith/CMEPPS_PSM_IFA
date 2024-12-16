@@ -24,18 +24,12 @@ public class Jugador {
         this.partida = partida;
     }
 
-    public boolean intentarAdivinar() {
+    public void intentarAdivinar() {
         boolean acierto = false;
-        System.out.println("Cual es tu palabra a probar? Jugador"+idJugador);
+        System.out.println("Cual es tu palabra a probar? Jugador" + idJugador);
         palabraIntento = teclado.nextLine();
 
         acierto = partida.comprobarPalabra(this.idJugador, this.palabraIntento);
-        if(acierto){
-            System.out.println("ACERTASTE");
-        }else{
-            System.out.println("Necesitas mas suerte...");
-        }
-        return acierto;
     }
 
 }
